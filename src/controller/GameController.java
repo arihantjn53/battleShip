@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class GameController {
     private OutputHandler outputHandler;
     private PlayerController playerController;
+
     public GameController() {
         outputHandler = new OutputHandler();
         playerController = new PlayerController();
@@ -28,12 +29,12 @@ public class GameController {
 
         outputHandler.printMsg("Starting Game!");
 
-        while(true) {
+        while (getWinner(players) == null) {
             Player currentPlayer = players.get(currentPlayerIndex);
+            boolean continueMove = false;
 
-            // make move if any moves left
             try {
-                playerController.makeMove(currentPlayer, players);
+                continueMove = playerController.makeMove(currentPlayer, players);
             } catch (NoMoreMovesLeftException exception) {
                 outputHandler.printNoMovesMsg(currentPlayerIndex);
             }
@@ -46,13 +47,17 @@ public class GameController {
                 break;
             }
 
-            // get nextPlayer
-            currentPlayerIndex = playerController.pickNextPlayer(currentPlayerIndex, players);
+            // if currentPlayer hit any ship continue,
+            // else get nextPlayer
+            if (!continueMove) {
+                currentPlayerIndex = playerController.pickNextPlayer(currentPlayerIndex, players);
+            }
         }
     }
+
     private Player getWinner(ArrayList<Player> allPlayers) {
         ArrayList<Player> playersLeft = new ArrayList<>();
-        for (Player player: allPlayers) {
+        for (Player player : allPlayers) {
             if (playerController.anyShipsLeft(player)) {
                 playersLeft.add(player);
             }

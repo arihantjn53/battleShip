@@ -4,9 +4,6 @@ import model.board.BoardItem;
 import model.player.Player;
 
 public class BoardController {
-    public BoardController() {
-    }
-
     public Board createBoard(Board board, String row, String column) {
         int width = Integer.parseInt(row);
         int height = (int) column.charAt(0) - (int) 'A' + 1;
@@ -14,8 +11,6 @@ public class BoardController {
         BoardItem[][] boardItems = new BoardItem[width][height];
         board.setWidth(width);
         board.setHeight(height);
-
-//        System.out.println(board.getWidth() + " " + board.getHeight());
 
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
@@ -28,20 +23,22 @@ public class BoardController {
         return board;
     }
 
-    public void addShip(Board board, BoardItem shipType, int shipWidth, int shipLength, String shipLocation) {
+    private void addShip(Board board, char shipType, int shipWidth, int shipLength, String shipLocation) {
         int startX = (int) shipLocation.charAt(0) - (int) 'A';
         int startY = shipLocation.charAt(1) - '0' - 1;
 
         BoardItem[][] boardItems = board.getBoardItems();
 
-        for(int i = startX; i < startX + shipWidth; i++) {
-            for(int j = startY; j < startY + shipLength; j++) {
-                boardItems[i][j] = shipType;
+        for(int i = startX; i < startX + shipLength; i++) {
+            for(int j = startY; j < startY + shipWidth; j++) {
+                boardItems[i][j].setType(shipType);
             }
         }
+        board.setBoardItems(boardItems);
     }
 
-    public void printBoard(Board board) {
+    private void printBoard(int playerId, Board board) {
+        System.out.println("Player " + (playerId+1) + " Initial Board:");
         BoardItem[][] boardItems = board.getBoardItems();
 
         System.out.print("  ");
@@ -64,10 +61,27 @@ public class BoardController {
         BoardItem[][] boardItems = targetPlayer.getBoard().getBoardItems();
         if (boardItems[x][y].getType() == 'Q') {
             boardItems[x][y].setType('P');
+            targetPlayer.getBoard().setBoardItems(boardItems);
             return true;
         } else if (boardItems[x][y].getType() == 'P') {
             boardItems[x][y].setType('X');
+            targetPlayer.getBoard().setBoardItems(boardItems);
             return true;
         } else return false;
+    }
+
+    public Board setupPlayerBoard(Board board, int playerId, String[] shipsInfo) {
+        for (String s : shipsInfo) {
+            String[] shipInfo = s.split(" ");
+            char shipType = shipInfo[0].charAt(0);
+            int shipWidth = Integer.parseInt(shipInfo[1]);
+            int shipLength = Integer.parseInt(shipInfo[2]);
+            int playerIndex = playerId + 3;
+            String shipLocation = shipInfo[playerIndex];
+
+            addShip(board, shipType, shipWidth, shipLength, shipLocation);
+        }
+        printBoard(playerId, board);
+        return board;
     }
 }
