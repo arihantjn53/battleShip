@@ -7,20 +7,24 @@ import io.OutputHandler;
 import model.board.Board;
 import model.board.BoardItem;
 import model.player.Player;
+import utils.Constants;
 
 import java.util.ArrayList;
 public class PlayerController {
     private BoardController boardController;
-
+    private OutputHandler outputHandler;
     public PlayerController() {
         this.boardController = new BoardController();
+        this.outputHandler = new OutputHandler();
     }
 
     public void createPlayer(Player player, int playerId, InputHandler input) {
+        // set playerId, player moves and move num
         player.setPlayerId(playerId);
         player.setMoves(input.playersMoves[playerId].split(" "));
         player.setMoveNum(0);
 
+        // create new board and add ships to it
         Board board = new Board();
         board = boardController.createBoard(board, input.boardDimensions[0], input.boardDimensions[1]);
         board = boardController.setupPlayerBoard(board, playerId, input.shipsInfo);
@@ -59,15 +63,19 @@ public class PlayerController {
     }
 
     private boolean takeHit(Player targetPlayer, Player sourcePlayer, String move) {
-        OutputHandler output = new OutputHandler();
         int X = (int) move.charAt(0) - (int) 'A';
         int Y = move.charAt(1) - '0' - 1;
-        if (boardController.makeHit(targetPlayer, X, Y)) {
-            output.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, true);
-            return true;
-        }
-        else {
-            output.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, false);
+        try {
+            if (boardController.makeHit(targetPlayer, X, Y)) {
+                outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, true);
+                return true;
+            }
+            else {
+                outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, false);
+                return false;
+            }
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            outputHandler.printInvalidInputMsg(sourcePlayer.getPlayerId(), move);
             return false;
         }
     }
@@ -76,10 +84,11 @@ public class PlayerController {
         Board board = player.getBoard();
         BoardItem[][] boardItems = board.getBoardItems();
 
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
-                if (boardItems[i][j].getType() == 'P' || boardItems[i][j].getType() == 'Q') {
-                    // Future: keep array of type of ships
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                if (boardItems[i][j].getType() == Constants.BOARD_ITEM_SHIP_P.label
+                        || boardItems[i][j].getType() == Constants.BOARD_ITEM_SHIP_Q.label) {
+                    // Future Scope: keep array of type of ships
                     return true;
                 }
             }
@@ -87,14 +96,25 @@ public class PlayerController {
         return false;
     }
 
-    public int firstPlayer(ArrayList<Player> allPlayers) {
+    public Player firstPlayer(ArrayList<Player> allPlayers) {
         if (allPlayers.size() == 0) {
             throw new InvalidInputException();
         }
-        return 0;
+        return allPlayers.get(0);
     }
 
-    public int pickNextPlayer(int currentPlayerIndex, ArrayList<Player> allPlayers) {
-        return (currentPlayerIndex + 1) % allPlayers.size();
+    public Player pickNextPlayer(Player currentPlayer, ArrayList<Player> allPlayers) {
+        int nextPlayerId = (currentPlayer.getPlayerId() + 1) % allPlayers.size();
+        return allPlayers.get(nextPlayerId);
+    }
+
+    public boolean anyMovesLeft(ArrayList<Player> allPlayers) {
+        for (Player player : allPlayers) {
+            String[] moves = player.getMoves();
+            int moveNum = player.getMoveNum();
+
+            if (moves.length > moveNum) return true;
+        }
+        return false;
     }
 }

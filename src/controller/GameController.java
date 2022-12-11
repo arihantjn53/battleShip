@@ -25,23 +25,23 @@ public class GameController {
 
         // first player index, this will always return 0
         // FUTURE SCOPE: can be randomized
-        int currentPlayerIndex = playerController.firstPlayer(players);
-
+        Player currentPlayer = playerController.firstPlayer(players);
+        Player winner = null;
         outputHandler.printMsg("Starting Game!");
 
-        while (getWinner(players) == null) {
-            Player currentPlayer = players.get(currentPlayerIndex);
+        while (playerController.anyMovesLeft(players)) {
             boolean continueMove = false;
-
+            // if current player hit any ship of any player
+            // continue move with same player
             try {
                 continueMove = playerController.makeMove(currentPlayer, players);
             } catch (NoMoreMovesLeftException exception) {
-                outputHandler.printNoMovesMsg(currentPlayerIndex);
+                outputHandler.printNoMovesMsg(currentPlayer.getPlayerId());
             }
 
             // check if we get a winner
             // by checking if any ship is left
-            Player winner = getWinner(players);
+            winner = getWinner(players);
             if (winner != null) {
                 outputHandler.printWinner(winner.getPlayerId());
                 break;
@@ -50,8 +50,13 @@ public class GameController {
             // if currentPlayer hit any ship continue,
             // else get nextPlayer
             if (!continueMove) {
-                currentPlayerIndex = playerController.pickNextPlayer(currentPlayerIndex, players);
+                currentPlayer = playerController.pickNextPlayer(currentPlayer, players);
             }
+        }
+
+        // if no player has any moves left and still no winner found
+        if (!playerController.anyMovesLeft(players) && winner == null) {
+            outputHandler.printMsg("No player won the battle.");
         }
     }
 

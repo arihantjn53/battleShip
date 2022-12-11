@@ -11,10 +11,9 @@ public class Main {
         InputHandler input = new InputHandler();
         PlayerController playerController = new PlayerController();
         GameController gameController = new GameController();
-        // TODO - remove comment
-//        input.getInput();
+        input.getInput();
 
-        // create players
+        // create players and setup their board
         ArrayList<Player> players = new ArrayList<>();
         for(int i = 0; i < input.nPlayers; i++) {
             Player player = new Player();
@@ -22,7 +21,8 @@ public class Main {
             players.add(player);
         }
 
-        // create game with created players and their board and start game
+        // create game with created players and their board
+        // then start the game
         Game game = new Game();
         gameController.createGame(game, players);
         gameController.startGame(game);
