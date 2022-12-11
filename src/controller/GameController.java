@@ -8,11 +8,9 @@ import model.player.Player;
 import java.util.ArrayList;
 
 public class GameController {
-    private OutputHandler outputHandler;
     private PlayerController playerController;
 
     public GameController() {
-        outputHandler = new OutputHandler();
         playerController = new PlayerController();
     }
 
@@ -27,7 +25,7 @@ public class GameController {
         // FUTURE SCOPE: can be randomized
         Player currentPlayer = playerController.firstPlayer(players);
         Player winner = null;
-        outputHandler.printMsg("Starting Game!");
+        OutputHandler.printMsg("Starting Game!");
 
         while (playerController.anyMovesLeft(players)) {
             boolean continueMove = false;
@@ -36,14 +34,14 @@ public class GameController {
             try {
                 continueMove = playerController.makeMove(currentPlayer, players);
             } catch (NoMoreMovesLeftException exception) {
-                outputHandler.printNoMovesMsg(currentPlayer.getPlayerId());
+                OutputHandler.printNoMovesMsg(currentPlayer.getPlayerId());
             }
 
             // check if we get a winner
             // by checking if any ship is left
             winner = getWinner(players);
             if (winner != null) {
-                outputHandler.printWinner(winner.getPlayerId());
+                OutputHandler.printWinner(winner.getPlayerId());
                 break;
             }
 
@@ -56,7 +54,7 @@ public class GameController {
 
         // if no player has any moves left and still no winner found
         if (!playerController.anyMovesLeft(players) && winner == null) {
-            outputHandler.printMsg("No player won the battle.");
+            OutputHandler.printMsg("No player won the battle.");
         }
     }
 

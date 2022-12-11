@@ -4,27 +4,27 @@ import model.board.Board;
 import model.board.BoardItem;
 
 public class OutputHandler {
-    public void printMsg(String msg) {
+    public static void printMsg(String msg) {
         System.out.println(msg);
     }
 
-    public void printHitMsg(int sourcePlayerId, int targetPlayerId, String move, boolean b) {
+    public static void printHitMsg(int sourcePlayerId, int targetPlayerId, String move, boolean b) {
         System.out.println("Player " + (sourcePlayerId + 1) + " fires a missile on Player " + (targetPlayerId + 1) + " with target " + move + " which got " + (b ? "hit." : "miss."));
     }
 
-    public void printNoMovesMsg(int currentPlayerIndex) {
+    public static void printNoMovesMsg(int currentPlayerIndex) {
         System.out.println("Player " + (currentPlayerIndex + 1) + " has no more missiles left to launch.");
     }
 
-    public void printWinner(int winnerId) {
+    public static void printWinner(int winnerId) {
         System.out.print("Player " + (winnerId + 1) + " won the battle.");
     }
 
-    public void printInvalidInputMsg(int playerId, String location) {
+    public static void printInvalidInputMsg(int playerId, String location) {
         System.out.println("Invalid input " + location + " for Player " + (playerId + 1));
     }
 
-    public void printBoard(int playerId, Board board) {
+    public static void printBoard(int playerId, Board board) {
         System.out.println("Player " + (playerId + 1) + " Initial Board:");
         BoardItem[][] boardItems = board.getBoardItems();
 

@@ -7,11 +7,6 @@ import io.OutputHandler;
 import utils.Constants;
 
 public class BoardController {
-    OutputHandler outputHandler;
-
-    public BoardController() {
-        outputHandler = new OutputHandler();
-    }
 
     public Board createBoard(Board board, String row, String column) {
         int width = Integer.parseInt(row);
@@ -44,10 +39,10 @@ public class BoardController {
             try {
                 addShip(board, shipType, shipWidth, shipLength, shipLocation);
             } catch (ArrayIndexOutOfBoundsException exception) {
-                outputHandler.printInvalidInputMsg(playerId, shipLocation);
+                OutputHandler.printInvalidInputMsg(playerId, shipLocation);
             }
         }
-        outputHandler.printBoard(playerId, board);
+        OutputHandler.printBoard(playerId, board);
         return board;
     }
 

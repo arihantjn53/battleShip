@@ -13,11 +13,9 @@ import java.util.ArrayList;
 
 public class PlayerController {
     private BoardController boardController;
-    private OutputHandler outputHandler;
 
     public PlayerController() {
         this.boardController = new BoardController();
-        this.outputHandler = new OutputHandler();
     }
 
     public void createPlayer(Player player, int playerId, InputHandler input) {
@@ -68,14 +66,14 @@ public class PlayerController {
         int Y = move.charAt(1) - '0' - 1;
         try {
             if (boardController.makeHit(targetPlayer, X, Y)) {
-                outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, true);
+                OutputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, true);
                 return true;
             } else {
-                outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, false);
+                OutputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, false);
                 return false;
             }
         } catch (ArrayIndexOutOfBoundsException exception) {
-            outputHandler.printInvalidInputMsg(sourcePlayer.getPlayerId(), move);
+            OutputHandler.printInvalidInputMsg(sourcePlayer.getPlayerId(), move);
             return false;
         }
     }
