@@ -1,5 +1,5 @@
-import controller.GameController;
-import controller.PlayerController;
+import controller.impl.GameController;
+import controller.impl.PlayerController;
 import io.InputHandler;
 import model.game.Game;
 import model.player.Player;

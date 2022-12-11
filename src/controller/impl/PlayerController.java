@@ -1,5 +1,7 @@
-package controller;
+package controller.impl;
 
+import controller.IPlayerController;
+import controller.impl.BoardController;
 import exceptions.InvalidInputException;
 import exceptions.NoMoreMovesLeftException;
 import io.InputHandler;
@@ -11,7 +13,7 @@ import utils.Constants;
 
 import java.util.ArrayList;
 
-public class PlayerController {
+public class PlayerController implements IPlayerController {
     private BoardController boardController;
 
     public PlayerController() {

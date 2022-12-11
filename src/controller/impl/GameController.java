@@ -1,4 +1,4 @@
-package controller;
+package controller.impl;
 
 import exceptions.NoMoreMovesLeftException;
 import io.OutputHandler;

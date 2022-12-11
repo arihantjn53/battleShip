@@ -1,12 +1,13 @@
-package controller;
+package controller.impl;
 
+import controller.IBoardController;
 import model.board.Board;
 import model.board.BoardItem;
 import model.player.Player;
 import io.OutputHandler;
 import utils.Constants;
 
-public class BoardController {
+public class BoardController implements IBoardController {
 
     public Board createBoard(Board board, String row, String column) {
         int width = Integer.parseInt(row);
