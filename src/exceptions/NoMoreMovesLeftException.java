@@ -1,4 +1,4 @@
 package exceptions;
 
-public class NoMoreMovesLeftException extends RuntimeException{
+public class NoMoreMovesLeftException extends RuntimeException {
 }

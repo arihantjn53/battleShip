@@ -8,16 +8,16 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        InputHandler input = new InputHandler();
+        InputHandler inputHandler = new InputHandler();
         PlayerController playerController = new PlayerController();
         GameController gameController = new GameController();
-        input.getInput();
+        inputHandler.getInput();
 
         // create players and setup their board
         ArrayList<Player> players = new ArrayList<>();
-        for(int i = 0; i < input.nPlayers; i++) {
+        for (int playerId = 0; playerId < inputHandler.nPlayers; playerId++) {
             Player player = new Player();
-            playerController.createPlayer(player, i, input);
+            playerController.createPlayer(player, playerId, inputHandler);
             players.add(player);
         }
 

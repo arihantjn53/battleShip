@@ -10,9 +10,11 @@ import model.player.Player;
 import utils.Constants;
 
 import java.util.ArrayList;
+
 public class PlayerController {
     private BoardController boardController;
     private OutputHandler outputHandler;
+
     public PlayerController() {
         this.boardController = new BoardController();
         this.outputHandler = new OutputHandler();
@@ -36,7 +38,7 @@ public class PlayerController {
         String nextMove = getNextMove(currentPlayer);
 
         // hit all players except self
-        for (Player targetPlayer: allPlayers) {
+        for (Player targetPlayer : allPlayers) {
             if (targetPlayer.getPlayerId() != currentPlayer.getPlayerId()) {
                 if (takeHit(targetPlayer, currentPlayer, nextMove)) {
                     successfullyHitAnyPlayer = true;
@@ -51,12 +53,11 @@ public class PlayerController {
         int moveNum = currentPlayer.getMoveNum();
         String nextMove;
 
-        if(moves.length > moveNum) {
+        if (moves.length > moveNum) {
             nextMove = moves[moveNum];
             moveNum++;
             currentPlayer.setMoveNum(moveNum);
-        }
-        else {
+        } else {
             throw new NoMoreMovesLeftException();
         }
         return nextMove;
@@ -69,8 +70,7 @@ public class PlayerController {
             if (boardController.makeHit(targetPlayer, X, Y)) {
                 outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, true);
                 return true;
-            }
-            else {
+            } else {
                 outputHandler.printHitMsg(sourcePlayer.getPlayerId(), targetPlayer.getPlayerId(), move, false);
                 return false;
             }

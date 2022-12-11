@@ -7,6 +7,7 @@ public enum Constants {
     BOARD_ITEM_SHIP_Q('Q');
 
     public char label;
+
     private Constants(char label) {
         this.label = label;
     }

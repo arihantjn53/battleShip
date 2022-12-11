@@ -1,4 +1,5 @@
 package controller;
+
 import model.board.Board;
 import model.board.BoardItem;
 import model.player.Player;
@@ -7,9 +8,11 @@ import utils.Constants;
 
 public class BoardController {
     OutputHandler outputHandler;
+
     public BoardController() {
         outputHandler = new OutputHandler();
     }
+
     public Board createBoard(Board board, String row, String column) {
         int width = Integer.parseInt(row);
         int height = (int) column.charAt(0) - (int) 'A' + 1;
@@ -18,8 +21,8 @@ public class BoardController {
         board.setWidth(width);
         board.setHeight(height);
 
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 BoardItem water = new BoardItem();
                 water.setType(Constants.BOARD_ITEM_WATER.label);
                 boardItems[i][j] = water;
@@ -54,8 +57,8 @@ public class BoardController {
 
         BoardItem[][] boardItems = board.getBoardItems();
 
-        for(int i = startX; i < startX + shipLength; i++) {
-            for(int j = startY; j < startY + shipWidth; j++) {
+        for (int i = startX; i < startX + shipLength; i++) {
+            for (int j = startY; j < startY + shipWidth; j++) {
                 boardItems[i][j].setType(shipType);
             }
         }
@@ -74,5 +77,4 @@ public class BoardController {
             return true;
         } else return false;
     }
-
 }
