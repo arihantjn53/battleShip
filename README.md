@@ -2,7 +2,23 @@
 
 Battleship game is a war game played on ocean by two players. Each player own his battle area and each player will get same number of ships where each ship may have different size placed at some position in non-overlapping fashion. Note, players cannot see each others ship's location.
 
+# Requirements
+
+- JAVA 1.8
+
 # Usage
+
+- Git clone the source code
+- Load the project in IDE and run Main.java
+
+  OR
+
+- Build the project in IDE
+- Run the `Main.class` in `out/production` using
+
+```bash
+java Main
+```
 
 # Input
 
